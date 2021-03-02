@@ -3,6 +3,8 @@ import useInterval from "../utils/useInterval";
 import Initialize from "./Initialize";
 import StartStop from "./StartStop";
 import FocusTimer from "./FocusTimer";
+import Progress from "./Progress";
+import alarm from "../alarm/submarine-dive-horn.mp3";
 
 /**
  * A component representing a Pomodoro timer.
@@ -29,8 +31,10 @@ function Pomodoro() {
   // useInterval is called every second when the timer is on
 	useInterval(
     () => {
-			if(timer.focusLeft < 0 || timer.breakLeft < 0)
+			if(timer.focusLeft <= 0 || timer.breakLeft <= 0) {
+				new Audio(alarm).play();
 				switchModes();
+			}
 			else {
 				if(timer.focus)
 					timePassed("focusLeft");
@@ -58,7 +62,6 @@ function Pomodoro() {
 	 * Once focus/break ends, switch modes and reset timers.
 	 */
 	function switchModes() {
-		new Audio(`${process.env.PUBLIC_URL}/alarm/submarine-dive-horn.mp3`).play();
 		setTimer(() => {
 			return {
 				...timer, 
@@ -101,7 +104,7 @@ function Pomodoro() {
 	 */
 	function changeMax(mode, change) {
 		const newTime = change < 0
-			? Math.max(timer[mode + "Floor"], timer[mode + "Max"] + change)
+			? Math.min(timer[mode + "Floor"], timer[mode + "Max"] + change, 3)
 			: Math.min(timer[mode + "Roof"], timer[mode + "Max"] + change);
 
 		setTimer(() => {
@@ -144,10 +147,24 @@ function Pomodoro() {
 
   return (
     <div className="pomodoro">
-      <Initialize 
-				changeMax={changeMax}
-				getTime={getTime}
-			/>
+			<div class="row">
+				<div class="col">
+					<Initialize 
+						changeMax={changeMax}
+						getTime={getTime}
+						mode="focus"
+					/>
+				</div>
+				<div class="col">
+					<div className="float-right">
+						<Initialize 
+							changeMax={changeMax}
+							getTime={getTime}
+							mode="break"
+						/>
+					</div>
+				</div>
+			</div>
 
       <StartStop 
 				playPause={playPause}
@@ -157,6 +174,10 @@ function Pomodoro() {
 
 			<FocusTimer 
 				getTime={getTime}
+				get={get}
+			/>
+
+			<Progress
 				get={get}
 			/>
     </div>

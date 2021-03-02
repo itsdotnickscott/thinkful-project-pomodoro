@@ -6,9 +6,10 @@ import PropTypes from "prop-types";
  * @param {Object} props - The properties passed on to this component.
  * @param {function} props.changeMax - A function that changes the max time.
  * @param {function} props.getTime - A function that gives a time in mm:ss.
+ * @param {string} props.mode - Either "focus" or "break".
  * @returns {JSX} - A <div> element containing timer info and buttons.
  */
-function Initialize( {changeMax, getTime} ) {
+function Initialize( {changeMax, getTime, mode} ) {
 	/**
 	 * Handles changing the max of focus/break.
 	 * @param {Event} - Button event.
@@ -24,18 +25,17 @@ function Initialize( {changeMax, getTime} ) {
 	}
 
 	return (
-		<div className="row">
 			<div className="col">
 				<div className="input-group input-group-lg mb-2">
-					<span className="input-group-text" data-testid="duration-focus">
-						Focus Duration: {getTime("focusMax")}
+					<span className="input-group-text" data-testid={`duration-${mode}`}>
+						{mode.charAt(0).toUpperCase() + mode.slice(1)} Duration: {getTime(`${mode}Max`)}
 					</span>
 
 					<div className="input-group-append">
 						<button
 							type="button"
 							className="btn btn-secondary"
-							data-testid="decrease-focus"
+							data-testid={`decrease-${mode}`}
 							onClick={handleChange}
 						>
 							<span className="oi oi-minus" />
@@ -44,7 +44,7 @@ function Initialize( {changeMax, getTime} ) {
 						<button
 							type="button"
 							className="btn btn-secondary"
-							data-testid="increase-focus"
+							data-testid={`duration-${mode}`}
 							onClick={handleChange}
 						>
 							<span className="oi oi-plus" />
@@ -52,43 +52,13 @@ function Initialize( {changeMax, getTime} ) {
 					</div>
 				</div>
 			</div>
-
-			<div className="col">
-				<div className="float-right">
-					<div className="input-group input-group-lg mb-2">
-						<span className="input-group-text" data-testid="duration-break">
-							Break Duration: {getTime("breakMax")}
-						</span>
-
-						<div className="input-group-append">
-							<button
-								type="button"
-								className="btn btn-secondary"
-								data-testid="decrease-break"
-								onClick={handleChange}
-							>
-								<span className="oi oi-minus" />
-							</button>
-							
-							<button
-								type="button"
-								className="btn btn-secondary"
-								data-testid="increase-break"
-								onClick={handleChange}
-							>
-								<span className="oi oi-plus" />
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	);
 }
 
 Initialize.propTypes = {
 	changeMax: PropTypes.func.isRequired,
 	getTime: PropTypes.func.isRequired,
+	mode: PropTypes.string.isRequired,
 }
 
 export default Initialize;
