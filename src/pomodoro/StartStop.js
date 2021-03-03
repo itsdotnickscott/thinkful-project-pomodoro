@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "../utils/class-names";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 /**
  * Two buttons that control play, pause, and stopping the timer.
@@ -54,6 +54,6 @@ StartStop.propTypes = {
 	playPause: PropTypes.func.isRequired,
 	get: PropTypes.func.isRequired,
 	stop: PropTypes.func.isRequired,
-}
+};
 
 export default StartStop;

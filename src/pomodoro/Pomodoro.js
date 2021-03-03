@@ -4,7 +4,6 @@ import Initialize from "./Initialize";
 import StartStop from "./StartStop";
 import FocusTimer from "./FocusTimer";
 import Progress from "./Progress";
-import alarm from "../alarm/submarine-dive-horn.mp3";
 
 /**
  * A component representing a Pomodoro timer.
@@ -32,7 +31,8 @@ function Pomodoro() {
 	useInterval(
     () => {
 			if(timer.focusLeft <= 0 || timer.breakLeft <= 0) {
-				new Audio(alarm).play();
+				const alarm = new Audio(`https://onlineclock.net/audio/options/default.mp3`).play();
+				console.log(alarm);
 				switchModes();
 			}
 			else {
@@ -104,7 +104,7 @@ function Pomodoro() {
 	 */
 	function changeMax(mode, change) {
 		const newTime = change < 0
-			? Math.min(timer[mode + "Floor"], timer[mode + "Max"] + change, 3)
+			? Math.max(timer[mode + "Floor"], timer[mode + "Max"] + change)
 			: Math.min(timer[mode + "Roof"], timer[mode + "Max"] + change);
 
 		setTimer(() => {
@@ -147,15 +147,15 @@ function Pomodoro() {
 
   return (
     <div className="pomodoro">
-			<div class="row">
-				<div class="col">
+			<div className="row">
+				<div className="col">
 					<Initialize 
 						changeMax={changeMax}
 						getTime={getTime}
 						mode="focus"
 					/>
 				</div>
-				<div class="col">
+				<div className="col">
 					<div className="float-right">
 						<Initialize 
 							changeMax={changeMax}

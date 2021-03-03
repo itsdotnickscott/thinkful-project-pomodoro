@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 /**
  * A component that shows a progress bar when the timer is on.
@@ -33,6 +33,6 @@ function Progress({ get }) {
 
 Progress.propTypes = {
 	get: PropTypes.func.isRequired,
-}
+};
 
 export default Progress;

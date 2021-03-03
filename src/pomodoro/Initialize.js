@@ -59,6 +59,6 @@ Initialize.propTypes = {
 	changeMax: PropTypes.func.isRequired,
 	getTime: PropTypes.func.isRequired,
 	mode: PropTypes.string.isRequired,
-}
+};
 
 export default Initialize;

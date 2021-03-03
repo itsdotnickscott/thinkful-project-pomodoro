@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 /**
  * A component that shows the time remaining when the timer is on.
@@ -33,6 +33,6 @@ function FocusTimer( {getTime, get} ) {
 FocusTimer.propTypes = {
 	get: PropTypes.func.isRequired,
 	getTime: PropTypes.func.isRequired,
-}
+};
 
 export default FocusTimer;
